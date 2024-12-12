@@ -1,15 +1,17 @@
 import { Card } from 'react-bootstrap'
+import { IResult } from '../types/Article'
 
-const SingleArticle = () => {
+interface SingleArticleProps {
+  article: IResult
+}
+
+const SingleArticle = (props: SingleArticleProps) => {
   return (
-    <Card>
-      <Card.Img variant="top" src="holder.js/100px180" />
+    <Card className="h-100">
+      <Card.Img variant="top" src={props.article.image_url} />
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
+        <Card.Title>{props.article.title}</Card.Title>
+        <Card.Text>{props.article.summary}</Card.Text>
       </Card.Body>
     </Card>
   )

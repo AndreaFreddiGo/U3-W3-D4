@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { IArticle } from '../types/Article'
+import { IResult } from '../types/Article'
+import SingleArticle from './SingleArticle'
 
 const Homepage = () => {
   const SPACEFLIGHT_URL = 'https://api.spaceflightnewsapi.net/v4/articles'
 
-  const [articles, setArticles] = useState<IArticle[]>([])
+  const [articles, setArticles] = useState<IResult[]>([])
 
   const getArticles = async () => {
     try {
@@ -13,7 +14,7 @@ const Homepage = () => {
       if (response.ok) {
         const arrayOfArticles = await response.json()
         console.log('arrayOfArticles', arrayOfArticles)
-        setArticles(arrayOfArticles)
+        setArticles(arrayOfArticles.results)
       } else {
         throw new Error('Unable to fetch articles')
       }
@@ -30,8 +31,19 @@ const Homepage = () => {
     <>
       <h1>SPACEFLIGHT</h1>
       <Container>
-        <Row className=" justify-content-center">
-          <Col xs={12} md={6}></Col>
+        <Row className="d-flex justify-content-between g-3">
+          {articles.map((a) => {
+            return (
+              <Col
+                xs={12}
+                md={4}
+                key={a.id}
+                className="d-flex align-items-stretch"
+              >
+                <SingleArticle article={a} />
+              </Col>
+            )
+          })}
         </Row>
       </Container>
     </>
